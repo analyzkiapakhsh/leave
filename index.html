@@ -409,7 +409,7 @@
         }
       });
 
-      // ✅ بخش ارسال — تنها بخشی که برای n8n Cloud تغییر کرده
+      // ✅ بخش ارسال — نسخه نهایی و اصلاح‌شده
       document.getElementById('leaveForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const now = new Date();
@@ -428,20 +428,31 @@
         data.today_shamsi = todayShamsi;
 
         try {
-          // ✅ آدرس n8n Cloud شما
+          // ✅ آدرس اصلاح‌شده — بدون فاصله اضافه
           const res = await fetch('https://kiapakhsh.app.n8n.cloud/webhook/leave', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json' }
           });
-          
-          const result = await res.json();
-          
-          // ✅ نمایش پیام دقیق از n8n به صورت پاپ‌آپ
-          alert(result.message || "❌ خطای ناشناخته در پردازش درخواست.");
-          
-          // ✅ فقط در صورت موفقیت، فرم ریست شود
-          if (res.ok && result.status === "success") {
+
+          // ✅ بررسی اینکه آیا پاسخ قابل خواندن است
+          let result;
+          try {
+            result = await res.json();
+          } catch (jsonError) {
+            alert("❌ پاسخ سرور معتبر نیست.");
+            return;
+          }
+
+          // ✅ نمایش پیام
+          if (result && result.message) {
+            alert(result.message);
+          } else {
+            alert("❌ خطای ناشناخته در پردازش درخواست.");
+          }
+
+          // ✅ رفرش فرم فقط در صورت موفقیت
+          if (res.ok && result && result.status === "success") {
             e.target.reset();
             toggleFields();
           }
@@ -453,5 +464,3 @@
   </script>
 </body>
 </html>
-
-
