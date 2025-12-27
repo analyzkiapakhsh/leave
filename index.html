@@ -409,7 +409,7 @@
         }
       });
 
-      // ✅ بخش ارسال — نسخه نهایی و اصلاح‌شده
+      // ✅ بخش نهایی ارسال — اصلاح‌شده برای کار با n8n Cloud
       document.getElementById('leaveForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const now = new Date();
@@ -428,36 +428,38 @@
         data.today_shamsi = todayShamsi;
 
         try {
-          // ✅ آدرس اصلاح‌شده — بدون فاصله اضافه
           const res = await fetch('https://kiapakhsh.app.n8n.cloud/webhook/leave', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json' }
           });
 
-          // ✅ بررسی اینکه آیا پاسخ قابل خواندن است
+          // ✅ دریافت پاسخ به صورت متن و سپس تبدیل به JSON
+          const text = await res.text();
           let result;
           try {
-            result = await res.json();
-          } catch (jsonError) {
+            result = JSON.parse(text);
+          } catch (parseError) {
             alert("❌ پاسخ سرور معتبر نیست.");
+            console.error("Invalid JSON from server:", text);
             return;
           }
 
           // ✅ نمایش پیام
-          if (result && result.message) {
+          if (result.message) {
             alert(result.message);
           } else {
             alert("❌ خطای ناشناخته در پردازش درخواست.");
           }
 
           // ✅ رفرش فرم فقط در صورت موفقیت
-          if (res.ok && result && result.status === "success") {
+          if (res.ok && result.status === "success") {
             e.target.reset();
             toggleFields();
           }
         } catch (err) {
           alert("❌ ارتباط با سرور برقرار نشد.");
+          console.error("Fetch error:", err);
         }
       });
     });
