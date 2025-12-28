@@ -1,61 +1,25 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <title>دیباگ پاسخ سرور</title>
-  <style>
-    body { font-family: Tahoma; padding: 20px; background: #f0f0f0; }
-    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
-    pre { background: #eee; padding: 10px; border-radius: 4px; overflow-x: auto; }
-    button { padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
-  </style>
-</head>
+<html>
 <body>
-  <div class="container">
-    <h3>دیباگ پاسخ سرور</h3>
-    <button onclick="sendTest()">ارسال درخواست تست</button>
-    <div id="output"></div>
-  </div>
-
+  <button onclick="test()">تست</button>
   <script>
-    async function sendTest() {
-      const out = document.getElementById('output');
-      out.innerHTML = "<p>در حال ارسال...</p>";
-
-      const data = {
-        full_name: "تست",
-        sales_line: "درنا گروه 1",
-        leave_type: "مرخصی استحقاقی",
-        start_date: "1404/10/07",
-        end_date: "1404/10/07",
-        visit_city_request_day: "کرمانشاه",
-        visit_city_leave_day: "کرمانشاه",
-        today_shamsi: "1404/10/06"
-      };
-
+    async function test() {
       try {
-        const url = 'https://kiapakhsh.app.n8n.cloud/webhook/leave';
-        const res = await fetch(url, {
+        const res = await fetch('https://kiapakhsh.app.n8n.cloud/webhook/leave', {
           method: 'POST',
-          body: JSON.stringify(data),
-          headers: { 'Content-Type': 'application/json' }
+          body: '{}',
+          headers: {'Content-Type': 'application/json'}
         });
-
         const text = await res.text();
-        out.innerHTML += `<p><strong>وضعیت HTTP:</strong> ${res.status}</p>`;
-        out.innerHTML += `<p><strong>پاسخ خام:</strong></p><pre>${JSON.stringify(text)}</pre>`;
-
+        console.log("Raw response:", text);
         try {
           const json = JSON.parse(text);
-          out.innerHTML += `<p><strong>پیام:</strong> ${json.message || 'تعریف نشده'}</p>`;
-          alert(json.message || "پیام دریافت نشد");
+          alert(json.message || "پیام ناموجود");
         } catch (e) {
-          out.innerHTML += `<p style="color:red;"><strong>خطا در تجزیه JSON:</strong> ${e.message}</p>`;
-          alert("❌ پاسخ سرور معتبر نیست.");
+          alert("❌ JSON نامعتبر: " + text);
         }
-      } catch (err) {
-        out.innerHTML += `<p style="color:red;"><strong>خطا در ارتباط:</strong> ${err.message}</p>`;
-        alert("❌ ارتباط با سرور برقرار نشد.");
+      } catch (e) {
+        alert("❌ خطا: " + e.message);
       }
     }
   </script>
