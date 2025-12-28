@@ -226,7 +226,7 @@
         return (isLeapYear(y)) ? 30 : 29;
       }
 
-      function isLeapPeriod(y) {
+      function isLeapYear(y) {
         const breaks = [-61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210, 1635, 2060, 2097, 2192, 2262, 2324, 2394, 2456, 3178];
         if (y < breaks[0] || y >= breaks[breaks.length - 1]) return false;
         for (let i = 1; i < breaks.length; i++) {
@@ -409,7 +409,7 @@
         }
       });
 
-      // ✅ بخش نهایی و اصلاح‌شده ارسال
+      // ✅ بخش نهایی ارسال — با پشتیبانی از trim
       document.getElementById('leaveForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const now = new Date();
@@ -434,26 +434,23 @@
             headers: { 'Content-Type': 'application/json' }
           });
 
-          // ✅ دریافت پاسخ به صورت متن و لاگ
           const text = await res.text();
-          console.log("✅ Raw response from server:", text);
-
           let result;
           try {
-            result = JSON.parse(text);
+            // ✅ trim قبل از parse
+            result = JSON.parse(text.trim());
           } catch (parseError) {
             alert("❌ پاسخ سرور معتبر نیست.");
+            console.error("Raw response:", text);
             return;
           }
 
-          // ✅ نمایش پیام
           if (result && result.message) {
             alert(result.message);
           } else {
             alert("❌ خطای ناشناخته در پردازش درخواست.");
           }
 
-          // ✅ رفرش فرم فقط در صورت موفقیت
           if (res.ok && result && result.status === "success") {
             e.target.reset();
             toggleFields();
