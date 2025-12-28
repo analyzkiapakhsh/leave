@@ -2,30 +2,37 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تست پاسخ سرور</title>
+  <title>فرم تست - نسخه پایدار</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
   <style>
-    body { font-family: Tahoma, sans-serif; padding: 20px; }
-    button { padding: 10px 20px; font-size: 16px; }
+    body { font-family: Tahoma; padding: 20px; background: #f0f0f0; }
+    .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+    button { padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #219653; }
   </style>
 </head>
 <body>
-  <h2>فرم تست ساده</h2>
-  <button type="button" onclick="testRequest()">ارسال درخواست تست</button>
+  <div class="container">
+    <h3>ارسال درخواست تست</h3>
+    <button onclick="sendTest()">ارسال</button>
+  </div>
 
   <script>
-    async function testRequest() {
-      const data = { test: true };
+    async function sendTest() {
+      const data = {
+        full_name: "تست",
+        sales_line: "درنا گروه 1",
+        leave_type: "مرخصی استحقاقی",
+        start_date: "1404/10/07",
+        end_date: "1404/10/07",
+        visit_city_request_day: "کرمانشاه",
+        visit_city_leave_day: "کرمانشاه",
+        today_shamsi: "1404/10/06"
+      };
 
       try {
-        const res = await fetch('https://kiapakhsh.app.n8n.cloud/webhook/leave', {
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: { 'Content-Type': 'application/json' }
-        });
-
-        const result = await res.json();
-        alert(result.message || "پیامی دریافت نشد");
+        const res = await axios.post('https://kiapakhsh.app.n8n.cloud/webhook/leave', data);
+        alert(res.data.message || "پیامی دریافت نشد");
       } catch (err) {
         alert("❌ ارتباط با سرور برقرار نشد.");
         console.error(err);
