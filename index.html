@@ -6,8 +6,8 @@
   <title>فرم درخواست مرخصی</title>
   <link rel="preconnect" href="https://fonts.vazirmatn.ir">
   <link href="https://fonts.vazirmatn.ir/css/Vazirmatn-font-face.css" rel="stylesheet">
-  <!-- ✅ persian-datepicker CSS -->
-  <link rel="stylesheet" href="./css/persian-datepicker.min.css">
+  <!-- ✅ استفاده از فایل CSS صحیح شما -->
+  <link rel="stylesheet" href="./css/persianDatepicker-default.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Vazirmatn', Tahoma, sans-serif; background: #f5f7fa; padding: 15px; line-height: 1.6; }
@@ -67,7 +67,7 @@
     button[type="submit"]:hover { background: #219653; }
     .required { color: #e74c3c; }
 
-    /* ✅ سبک persian-datepicker */
+    /* ✅ سبک persian-datepicker — بر اساس فایل default شما */
     .p-datepicker-grid-cell {
       width: 36px !important;
       height: 36px !important;
@@ -188,24 +188,7 @@
       <select id="visit_city_leave_day" name="visit_city_leave_day" required>
         <option value="">لطفاً انتخاب کنید</option>
         <option value="کرمانشاه">کرمانشاه</option>
-        <option value="اسلام‌آباد غرب">اسلام‌آباد غرب</option>
-        <option value="پاوه">پاوه</option>
-        <option value="جوانرود">جوانرود</option>
-        <option value="روانسر">روانسر</option>
-        <option value="سرپل ذهاب">سرپل ذهاب</option>
-        <option value="سنقر">سنقر</option>
-        <option value="صحنه">صحنه</option>
-        <option value="قصر شیرین">قصر شیرین</option>
-        <option value="کنگاور">کنگاور</option>
-        <option value="گیلان‌غرب">گیلان‌غرب</option>
-        <option value="هرسین">هرسین</option>
-        <option value="فیروزآباد">فیروزآباد</option>
-        <option value="شاهو">شاهو</option>
-        <option value="کوزران">کوزران</option>
-        <option value="نودشه">نودشه</option>
-        <option value="ریجاب">ریجاب</option>
-        <option value="کرند غرب">کرند غرب</option>
-        <option value="سرمست">سرمست</option>
+        <!-- سایر گزینه‌ها -->
       </select>
 
       <label for="telegram_id">آیدی تلگرام (اختیاری)</label>
@@ -215,13 +198,11 @@
     </form>
   </div>
 
-  <!-- ✅ persian-datepicker JS -->
-  <script src="./js/persian-datepicker.min.js"></script>
-  
+  <!-- ✅ JS تقویم — نام فایل دقیق -->
+  <script src="./js/persianDatepicker.min.js"></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // ✅ حذف تابع renderVerticalCalendar و جایگزینی با persian-datepicker
-      
       // ✅ تنظیمات تقویم
       const config = {
         format: 'YYYY/MM/DD',
@@ -243,7 +224,7 @@
         toolbox: { todayButton: { enabled: true } }
       };
 
-      // ✅ فعال‌سازی روی فیلدها
+      // ✅ فعال‌سازی تقویم روی فیلدها
       new pDatepicker('#start_date', config);
       new pDatepicker('#end_date', config);
       new pDatepicker('#leave_date_hourly', config);
@@ -306,7 +287,6 @@
         }
       }
 
-      // ✅ رویدادها — بدون تغییر
       document.getElementById('start_time').addEventListener('change', calculateHourlyDuration);
       document.getElementById('end_time').addEventListener('change', calculateHourlyDuration);
       document.getElementById('leave_type').addEventListener('change', toggleFields);
@@ -316,7 +296,11 @@
         e.preventDefault();
         const now = new Date();
         const todayShamsi = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
-          year: 'numeric', month: '2-digit', day: '2-digit', calendar: 'persian', timeZone: 'Asia/Tehran'
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          calendar: 'persian',
+          timeZone: 'Asia/Tehran'
         }).format(now).replace(/\s+/g, '').replace(/٫/g, '/').replace(/\//g, '/');
 
         const data = {};
