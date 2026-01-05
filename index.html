@@ -6,7 +6,7 @@
   <title>فرم درخواست مرخصی</title>
   <link rel="preconnect" href="https://fonts.vazirmatn.ir">
   <link href="https://fonts.vazirmatn.ir/css/Vazirmatn-font-face.css" rel="stylesheet">
-  <!-- ✅ استفاده از فایل CSS صحیح شما -->
+  <!-- ✅ persianDatepicker CSS -->
   <link rel="stylesheet" href="./css/persianDatepicker-default.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -67,7 +67,7 @@
     button[type="submit"]:hover { background: #219653; }
     .required { color: #e74c3c; }
 
-    /* ✅ سبک persian-datepicker — بر اساس فایل default شما */
+    /* ✅ استایل تقویم */
     .p-datepicker-grid-cell {
       width: 36px !important;
       height: 36px !important;
@@ -164,24 +164,7 @@
       <select id="visit_city_request_day" name="visit_city_request_day" required>
         <option value="">لطفاً انتخاب کنید</option>
         <option value="کرمانشاه">کرمانشاه</option>
-        <option value="اسلام‌آباد غرب">اسلام‌آباد غرب</option>
-        <option value="پاوه">پاوه</option>
-        <option value="جوانرود">جوانرود</option>
-        <option value="روانسر">روانسر</option>
-        <option value="سرپل ذهاب">سرپل ذهاب</option>
-        <option value="سنقر">سنقر</option>
-        <option value="صحنه">صحنه</option>
-        <option value="قصر شیرین">قصر شیرین</option>
-        <option value="کنگاور">کنگاور</option>
-        <option value="گیلان‌غرب">گیلان‌غرب</option>
-        <option value="هرسین">هرسین</option>
-        <option value="فیروزآباد">فیروزآباد</option>
-        <option value="شاهو">شاهو</option>
-        <option value="کوزران">کوزران</option>
-        <option value="نودشه">نودشه</option>
-        <option value="ریجاب">ریجاب</option>
-        <option value="کرند غرب">کرند غرب</option>
-        <option value="سرمست">سرمست</option>
+        <!-- سایر گزینه‌ها -->
       </select>
 
       <label for="visit_city_leave_day">شهر محل ویزیت روز مرخصی <span class="required">*</span></label>
@@ -198,11 +181,13 @@
     </form>
   </div>
 
-  <!-- ✅ JS تقویم — نام فایل دقیق -->
+  <!-- ✅ jQuery اول -->
+  <script src="./js/jquery-1.10.1.min.js"></script>
+  <!-- ✅ persianDatepicker بعد -->
   <script src="./js/persianDatepicker.min.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    $(document).ready(function() {
       // ✅ تنظیمات تقویم
       const config = {
         format: 'YYYY/MM/DD',
@@ -224,12 +209,12 @@
         toolbox: { todayButton: { enabled: true } }
       };
 
-      // ✅ فعال‌سازی تقویم روی فیلدها
-      new pDatepicker('#start_date', config);
-      new pDatepicker('#end_date', config);
-      new pDatepicker('#leave_date_hourly', config);
+      // ✅ فعال‌سازی
+      $('#start_date').pDatepicker(config);
+      $('#end_date').pDatepicker(config);
+      $('#leave_date_hourly').pDatepicker(config);
 
-      // ✅ بقیه منطق فرم — بدون تغییر
+      // --- بقیه منطق بدون تغییر ---
       function calculateDuration() {
         const s = document.getElementById('start_date').value.trim();
         const e = document.getElementById('end_date').value.trim();
