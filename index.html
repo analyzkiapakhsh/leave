@@ -4,12 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>فرم درخواست مرخصی</title>
-  <!-- ✅ فونت از لینک جایگزین داخلی (بدون CDN خارجی) -->
-  <link href="https://v1.fontapi.ir/css/Vazirmatn" rel="stylesheet">
-  
-  <!-- ✅ persianDatepicker از فایل محلی -->
-  <link rel="stylesheet" href="./css/persianDatepicker.min.css">
-  
+  <link rel="preconnect" href="https://fonts.vazirmatn.ir">
+  <link href="https://fonts.vazirmatn.ir/css/Vazirmatn-font-face.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/persianDatepicker-default.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Vazirmatn', Tahoma, sans-serif; background: #f5f7fa; padding: 15px; line-height: 1.6; }
@@ -68,10 +65,37 @@
     button[type="submit"] { width: 100%; padding: 14px; background: #27ae60; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 20px; cursor: pointer; transition: background 0.3s; font-family: 'Vazirmatn', Tahoma, sans-serif; }
     button[type="submit"]:hover { background: #219653; }
     .required { color: #e74c3c; }
+
+    .p-datepicker-grid-cell {
+      width: 36px !important;
+      height: 36px !important;
+      border-radius: 0 !important;
+      font-family: 'Vazirmatn', Tahoma, sans-serif !important;
+      font-size: 14px !important;
+      background: #fff !important;
+      border: 1px solid #eee !important;
+    }
+    .p-datepicker-grid-cell[data-day-of-week="6"] {
+      background-color: #ffebf0 !important;
+      color: #c2185b !important;
+    }
+    .p-datepicker-grid-cell-today {
+      background-color: #d4edda !important;
+      color: #155724 !important;
+      font-weight: bold !important;
+    }
+    .p-datepicker-grid-cell-selected {
+      background-color: #cce5ff !important;
+      color: #004085 !important;
+      font-weight: bold !important;
+    }
+    .p-datepicker-grid-cell-holiday {
+      background-color: #f8d7da !important;
+      color: #721c24 !important;
+    }
   </style>
 </head>
 <body>
-  <!-- ... [همان HTML کامل فرم شما بدون تغییر] ... -->
   <div class="container">
     <img src="https://i.ibb.co/qMwN3FDw/111.jpg" alt="لوگوی شرکت" class="logo">
     <div class="form-title">فرم درخواست مرخصی ویزیتورهای شرکت</div>
@@ -82,7 +106,6 @@
     </div>
 
     <form id="leaveForm" name="leaveForm">
-      <!-- ... [همان فیلدهای کامل شما] ... -->
       <label for="full_name">نام و نام خانوادگی <span class="required">*</span></label>
       <input type="text" id="full_name" name="full_name" required>
 
@@ -104,16 +127,16 @@
         <option value="مرخصی ساعتی">مرخصی ساعتی</option>
       </select>
 
-      <div id="dailyFields" class="field-group active">
+      <div id="dailyFields" class="field-group">
         <label for="start_date">تاریخ شروع مرخصی (شمسی) <span class="required">*</span></label>
         <div class="date-input-wrapper">
-          <input type="text" id="start_date" name="start_date" placeholder="1404/10/05" required readonly>
+          <input type="text" id="start_date" name="start_date" placeholder="1400/01/01" required readonly>
           <button type="button" class="date-picker-btn" id="btn_start">📅</button>
         </div>
 
         <label for="end_date">تاریخ پایان مرخصی (شمسی) <span class="required">*</span></label>
         <div class="date-input-wrapper">
-          <input type="text" id="end_date" name="end_date" placeholder="1404/10/10" required readonly>
+          <input type="text" id="end_date" name="end_date" placeholder="1400/01/01" required readonly>
           <button type="button" class="date-picker-btn" id="btn_end">📅</button>
         </div>
 
@@ -124,7 +147,7 @@
       <div id="hourlyFields" class="field-group">
         <label for="leave_date_hourly">تاریخ مرخصی ساعتی (شمسی) <span class="required">*</span></label>
         <div class="date-input-wrapper">
-          <input type="text" id="leave_date_hourly" name="leave_date_hourly" placeholder="1404/10/05" required readonly>
+          <input type="text" id="leave_date_hourly" name="leave_date_hourly" placeholder="1400/01/01" required readonly>
           <button type="button" class="date-picker-btn" id="btn_hourly">📅</button>
         </div>
         <label for="start_time">مرخصی از ساعت <span class="required">*</span></label>
@@ -135,19 +158,52 @@
         <input type="text" id="duration_hours" name="duration_hours" readonly>
       </div>
 
-      <!-- ... [بقیه selectها] ... -->
       <label for="visit_city_request_day">شهر محل ویزیت روز درخواست مرخصی <span class="required">*</span></label>
       <select id="visit_city_request_day" name="visit_city_request_day" required>
         <option value="">لطفاً انتخاب کنید</option>
         <option value="کرمانشاه">کرمانشاه</option>
-        <!-- ... -->
+        <option value="اسلام‌آباد غرب">اسلام‌آباد غرب</option>
+        <option value="پاوه">پاوه</option>
+        <option value="جوانرود">جوانرود</option>
+        <option value="روانسر">روانسر</option>
+        <option value="سرپل ذهاب">سرپل ذهاب</option>
+        <option value="سنقر">سنقر</option>
+        <option value="صحنه">صحنه</option>
+        <option value="قصر شیرین">قصر شیرین</option>
+        <option value="کنگاور">کنگاور</option>
+        <option value="گیلان‌غرب">گیلان‌غرب</option>
+        <option value="هرسین">هرسین</option>
+        <option value="فیروزآباد">فیروزآباد</option>
+        <option value="شاهو">شاهو</option>
+        <option value="کوزران">کوزران</option>
+        <option value="نودشه">نودشه</option>
+        <option value="ریجاب">ریجاب</option>
+        <option value="کرند غرب">کرند غرب</option>
+        <option value="سرمست">سرمست</option>
       </select>
 
       <label for="visit_city_leave_day">شهر محل ویزیت روز مرخصی <span class="required">*</span></label>
       <select id="visit_city_leave_day" name="visit_city_leave_day" required>
         <option value="">لطفاً انتخاب کنید</option>
         <option value="کرمانشاه">کرمانشاه</option>
-        <!-- ... -->
+        <option value="اسلام‌آباد غرب">اسلام‌آباد غرب</option>
+        <option value="پاوه">پاوه</option>
+        <option value="جوانرود">جوانرود</option>
+        <option value="روانسر">روانسر</option>
+        <option value="سرپل ذهاب">سرپل ذهاب</option>
+        <option value="سنقر">سنقر</option>
+        <option value="صحنه">صحنه</option>
+        <option value="قصر شیرین">قصر شیرین</option>
+        <option value="کنگاور">کنگاور</option>
+        <option value="گیلان‌غرب">گیلان‌غرب</option>
+        <option value="هرسین">هرسین</option>
+        <option value="فیروزآباد">فیروزآباد</option>
+        <option value="شاهو">شاهو</option>
+        <option value="کوزران">کوزران</option>
+        <option value="نودشه">نودشه</option>
+        <option value="ریجاب">ریجاب</option>
+        <option value="کرند غرب">کرند غرب</option>
+        <option value="سرمست">سرمست</option>
       </select>
 
       <label for="telegram_id">آیدی تلگرام (اختیاری)</label>
@@ -163,8 +219,7 @@
 
   <script>
     $(document).ready(function() {
-      // ✅ فعال‌سازی تقویم
-      $('#start_date').pDatepicker({
+      const config = {
         format: 'YYYY/MM/DD',
         autoClose: true,
         minDate: [1400, 1, 1],
@@ -181,47 +236,22 @@
         highlightToday: true,
         markHolidays: true,
         disableHolidays: true
+      };
+
+      $('#start_date').pDatepicker(config);
+      $('#end_date').pDatepicker(config);
+      $('#leave_date_hourly').pDatepicker(config);
+
+      $('#leave_type').on('change', function() {
+        const v = $(this).val();
+        $('#dailyFields').toggle(v === 'مرخصی استحقاقی');
+        $('#hourlyFields').toggle(v === 'مرخصی ساعتی');
       });
 
-      $('#end_date').pDatepicker({
-        format: 'YYYY/MM/DD',
-        autoClose: true,
-        minDate: [1400, 1, 1],
-        maxDate: [1499, 12, 29],
-        calendar: {
-          persian: {
-            locale: 'fa',
-            holidays: [
-              [1,1], [1,2], [1,3], [1,4], [1,12], [1,13],
-              [3,14], [3,15], [11,22], [12,29]
-            ]
-          }
-        },
-        highlightToday: true,
-        markHolidays: true,
-        disableHolidays: true
-      });
+      // اجرای اولیه toggle
+      $('#leave_type').trigger('change');
 
-      $('#leave_date_hourly').pDatepicker({
-        format: 'YYYY/MM/DD',
-        autoClose: true,
-        minDate: [1400, 1, 1],
-        maxDate: [1499, 12, 29],
-        calendar: {
-          persian: {
-            locale: 'fa',
-            holidays: [
-              [1,1], [1,2], [1,3], [1,4], [1,12], [1,13],
-              [3,14], [3,15], [11,22], [12,29]
-            ]
-          }
-        },
-        highlightToday: true,
-        markHolidays: true,
-        disableHolidays: true
-      });
-
-      // ✅ بقیه منطق — بدون تغییر
+      // --- محاسبات و ارسال بدون تغییر ---
       function calculateDuration() {
         const s = document.getElementById('start_date').value.trim();
         const e = document.getElementById('end_date').value.trim();
@@ -239,55 +269,20 @@
         const startT = document.getElementById('start_time').value;
         const endT = document.getElementById('end_time').value;
         const f = document.getElementById('duration_hours');
-        if (!startT || !endT) {
-          f.value = '';
-          return;
-        }
+        if (!startT || !endT) return f.value = '';
         const [sh, sm] = startT.split(':').map(Number);
         const [eh, em] = endT.split(':').map(Number);
-        if (isNaN(sh) || isNaN(sm) || isNaN(eh) || isNaN(em)) {
-          f.value = '';
-          return;
-        }
+        if (isNaN(sh) || isNaN(sm) || isNaN(eh) || isNaN(em)) return f.value = '';
         const startMins = sh * 60 + sm;
         const endMins = eh * 60 + em;
-        if (endMins <= startMins) {
-          f.value = '';
-          return;
-        }
-        const diffHours = (endMins - startMins) / 60;
-        f.value = diffHours.toFixed(1);
+        if (endMins <= startMins) return f.value = '';
+        f.value = ((endMins - startMins) / 60).toFixed(1);
       }
-
-      function toggleFields() {
-        const t = document.getElementById('leave_type').value;
-        const d = document.getElementById('dailyFields');
-        const h = document.getElementById('hourlyFields');
-        if (t === 'مرخصی ساعتی') {
-          d.style.display = 'none';
-          h.style.display = 'block';
-          document.querySelectorAll('#dailyFields [required]').forEach(el => el.required = false);
-          document.getElementById('duration_hours').value = '';
-        } else if (t === 'مرخصی استحقاقی') {
-          h.style.display = 'none';
-          d.style.display = 'block';
-          document.querySelectorAll('#hourlyFields [required]').forEach(el => el.required = false);
-          document.getElementById('duration_days').value = '';
-        } else {
-          d.style.display = 'none';
-          h.style.display = 'none';
-        }
-      }
-
-      // ✅ باز کردن تقویم با کلیک
-      $('#btn_start').on('click', () => $('#start_date').focus());
-      $('#btn_end').on('click', () => $('#end_date').focus());
-      $('#btn_hourly').on('click', () => $('#leave_date_hourly').focus());
 
       document.getElementById('start_time').addEventListener('change', calculateHourlyDuration);
       document.getElementById('end_time').addEventListener('change', calculateHourlyDuration);
-      document.getElementById('leave_type').addEventListener('change', toggleFields);
-      toggleFields();
+      document.getElementById('start_date').addEventListener('change', calculateDuration);
+      document.getElementById('end_date').addEventListener('change', calculateDuration);
 
       document.getElementById('leaveForm').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -306,21 +301,14 @@
         try {
           const res = await fetch('https://kiapakhsh.app.n8n.cloud/webhook/leave', {
             method: 'POST',
-            body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
           });
-
           const result = await res.json();
-
-          if (result.message) {
-            alert(result.message);
-          } else {
-            alert("❌ خطای ناشناخته در پردازش درخواست.");
-          }
-
+          alert(result.message || "خطای ناشناخته");
           if (res.ok && result.status === "success") {
             e.target.reset();
-            toggleFields();
+            $('#leave_type').trigger('change');
           }
         } catch (err) {
           alert("❌ ارتباط با سرور برقرار نشد.");
